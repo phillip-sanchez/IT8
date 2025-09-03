@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pablo Picasso Digital Art Gallery</title>
+  <style>
+    :root {
+      --primary: #2d2d2d;
+      --accent: #e74c3c;
+      --bg1: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      --bg2: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+      --bg3: repeating-linear-gradient(45deg, #fda085, #fda085 10px, #f6d365 10px, #f6d365 20px);
+      --gallery-gap: 2vw;
+      --gallery-padding: 3vw;
+      --form-bg: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+      --input-bg: linear-gradient(120deg, #c2e9fb 0%, #a1c4fd 100%);
+      --input-border: #e74c3c;
+      --input-focus: #fda085;
+    }
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg1);
+    }
+    body {
+      margin: 0;
+      font-family: 'Montserrat', 'Arial', sans-serif;
+      color: var(--primary);
+      background: var(--bg1), var(--bg2);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    header {
+      background: var(--bg3);
+      padding: 4vw 0 2vw 0;
+      text-align: center;
+      position: relative;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      background: var(--bg2);
+      opacity: 0.2;
+      z-index: 0;
+      clip-path: polygon(0 0, 100% 0, 80% 100%, 0 80%);
+    }
+    .banner-content {
+      position: relative;
+      z-index: 1;
+    }
+    .picasso-portrait {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 1vw auto;
+      background: url('https://www.artwork-vault.co.uk/cdn/shop/files/foto-pablo-ruiz-picasso_1.jpg') center/cover no-repeat;
+      border-radius: 50%;
+      box-shadow: 0 0 0 8px #fff, 0 8px 32px rgba(0,0,0,0.2);
+      clip-path: polygon(20% 0, 80% 0, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0 80%, 0 20%);
+      transform: rotate(-8deg) skew(-6deg, 2deg);
+      border: 4px solid var(--accent);
+    }
+    h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin: 0.5vw 0 0.2vw 0;
+      text-shadow: 2px 2px 0 #fff, 4px 4px 0 #f6d365;
+    }
+    .slogan {
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--primary);
+      margin-bottom: 1vw;
+      text-shadow: 1px 1px 0 #fff;
+    }
+    nav {
+      margin-top: 2vw;
+      z-index: 2;
+      position: relative;
+    }
+    nav a {
+      display: inline-block;
+      margin: 0 1vw;
+      padding: 0.5vw 1.5vw;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--bg2);
+      border-radius: 30px;
+      text-decoration: none;
+      transition: background 0.3s, color 0.3s, transform 0.3s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    nav a:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: scale(1.08) rotate(-2deg);
+    }
+    section {
+      padding: 4vw 6vw;
+      position: relative;
+      z-index: 1;
+    }
+    /* Gallery Section */
+    #gallery {
+      background: var(--bg2);
+      border-radius: 32px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      margin: 4vw 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .gallery-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 2vw;
+      text-align: center;
+      letter-spacing: 0.05em;
+      text-shadow: 1px 1px 0 #fff;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 220px;
+      gap: var(--gallery-gap);
+      padding: var(--gallery-padding);
+      position: relative;
+    }
+    .artwork {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      background: #fff;
+      transition: box-shadow 0.3s, transform 0.3s;
+      cursor: pointer;
+      z-index: 1;
+    }
+    /* Asymmetrical grid placement */
+    .artwork:nth-child(1) { grid-column: 1 / span 1; grid-row: 1 / span 2; }
+    .artwork:nth-child(2) { grid-column: 2 / span 2; grid-row: 1 / span 1; }
+    .artwork:nth-child(3) { grid-column: 2 / span 1; grid-row: 2 / span 2; }
+    .artwork:nth-child(4) { grid-column: 4 / span 1; grid-row: 1 / span 2; }
+    .artwork:nth-child(5) { grid-column: 1 / span 1; grid-row: 3 / span 1; }
+    .artwork:nth-child(6) { grid-column: 3 / span 2; grid-row: 3 / span 1; }
+    .artwork:nth-child(7) { grid-column: 3 / span 1; grid-row: 2 / span 1; }
+
+    /* Unique hover effects for each artwork */
+    .artwork .title {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      background: rgba(41,41,41,0.85);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 0.7em 0.5em;
+      opacity: 0;
+      transform: translateY(100%);
+      transition: opacity 0.4s, transform 0.4s;
+      text-align: center;
+      letter-spacing: 0.05em;
+      border-radius: 0 0 18px 18px;
+    }
+    .artwork:hover .title {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .artwork:nth-child(1):hover {
+      transform: scale(1.08) rotate(-3deg);
+      box-shadow: 0 8px 32px #e74c3c55;
+    }
+    .artwork:nth-child(2):hover {
+      filter: brightness(1.2) contrast(1.1);
+      transform: skew(-6deg, 2deg) scale(1.04);
+      box-shadow: 0 8px 32px #fda08588;
+    }
+    .artwork:nth-child(3):hover {
+      transform: translateY(-12px) scale(1.06) rotate(2deg);
+      box-shadow: 0 8px 32px #a1c4fd88;
+    }
+    .artwork:nth-child(4):hover {
+      filter: grayscale(0.2) sepia(0.3);
+      transform: scale(1.12) rotate(-6deg);
+      box-shadow: 0 8px 32px #f6d36588;
+    }
+    .artwork:nth-child(5):hover {
+      transform: rotate(8deg) scale(1.05);
+      box-shadow: 0 8px 32px #c2e9fb88;
+    }
+    .artwork:nth-child(6):hover {
+      filter: blur(1px) brightness(1.1);
+      transform: scale(1.09) skew(4deg, -2deg);
+      box-shadow: 0 8px 32px #e74c3c88;
+    }
+    .artwork img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: filter 0.4s, transform 0.4s;
+      border-radius: 18px;
+    }
+    /* Artistic overlays using pseudo-elements */
+    .artwork::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      background: repeating-linear-gradient(135deg, #e74c3c 0 8px, #fda085 8px 16px, #a1c4fd 16px 24px);
+      border-radius: 18px;
+      z-index: 0;
+      mix-blend-mode: multiply;
+    }
+    .artwork::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      opacity: 0.12;
+      background: url('https://www.transparenttextures.com/patterns/cubes.png');
+      border-radius: 18px;
+      z-index: 0;
+      mix-blend-mode: overlay;
+    }
+    /* Artist Statement */
+    #statement {
+      background: var(--bg1);
+      border-radius: 32px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      margin: 4vw 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .statement-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 1vw;
+      text-align: center;
+      letter-spacing: 0.05em;
+      text-shadow: 1px 1px 0 #fff;
+    }
+    .statement-content {
+      font-size: 1.2rem;
+      line-height: 1.7;
+      color: var(--primary);
+      text-align: center;
+      margin: 0 auto;
+      max-width: 700px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 18px;
+      padding: 2vw;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    /* Contact Section */
+    #contact {
+      background: var(--bg3);
+      border-radius: 32px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      margin: 4vw 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 1vw;
+      text-align: center;
+      letter-spacing: 0.05em;
+      text-shadow: 1px 1px 0 #fff;
+    }
+    .contact-form {
+      max-width: 500px;
+      margin: 0 auto;
+      background: var(--form-bg);
+      border-radius: 24px;
+      padding: 2vw 3vw;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5vw;
+    }
+    .contact-form label {
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.3vw;
+      letter-spacing: 0.03em;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      font-size: 1.1rem;
+      padding: 0.8em 1em;
+      border-radius: 16px;
+      border: 2px solid var(--input-border);
+      background: var(--input-bg);
+      color: var(--primary);
+      outline: none;
+      transition: border 0.3s, box-shadow 0.3s, background 0.3s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      font-family: inherit;
+      margin-bottom: 0.5vw;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: var(--input-focus);
+      background: #fff;
+      box-shadow: 0 4px 16px #fda08544;
+      transform: scale(1.03) skew(-2deg, 2deg);
+    }
+    .contact-form input:hover,
+    .contact-form textarea:hover {
+      border-color: var(--accent);
+      background: #fff;
+      box-shadow: 0 4px 16px #e74c3c44;
+      transform: scale(1.03) rotate(-2deg);
+    }
+    .contact-form button {
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 0.8em 1em;
+      border-radius: 16px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: background 0.3s, transform 0.3s;
+      margin-top: 1vw;
+    }
+    .contact-form button:hover {
+      background: #2d2d2d;
+      color: #fda085;
+      transform: scale(1.08) rotate(-2deg);
+    }
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 180px;
+      }
+      section {
+        padding: 6vw 3vw;
+      }
+    }
+    @media (max-width: 600px) {
+      header {
+        padding: 8vw 0 4vw 0;
+      }
+      h1 {
+        font-size: 2.1rem;
+      }
+      .gallery-title, .statement-title, .contact-title {
+        font-size: 1.3rem;
+      }
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 180px;
+        gap: 4vw;
+        padding: 4vw 2vw;
+      }
+      .artwork {
+        min-height: 180px;
+      }
+      section {
+        padding: 8vw 2vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header id="home">
+    <div class="banner-content">
+      <div class="picasso-portrait"></div>
+      <h1>Pablo Picasso</h1>
+      <div class="slogan">"Art is the lie that enables us to realize the truth."</div>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#statement">Artist's Statement</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section id="gallery">
+      <div class="gallery-title">Gallery</div>
+      <div class="gallery-grid">
+        <div class="artwork">
+          <img src="https://www.artwork-vault.co.uk/cdn/shop/files/picasso-nino-paloma-ver4.jpg?width=400" alt="Child with a Dove">
+          <div class="title">Child with a Dove (1901)</div>
+        </div>
+        <div class="artwork">
+          <img src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/3/4-guernica-pablo-picasso.jpg" alt="Guernica">
+          <div class="title">Guernica (1937)</div>
+        </div>
+        <div class="artwork">
+          <img src="https://www.pablopicasso.org/assets/img/paintings/the-weeping-woman.jpg" alt="The Weeping Woman">
+          <div class="title">The Weeping Woman (1937)</div>
+        </div>
+        <div class="artwork">
+          <img src="https://www.pablopicasso.org/assets/img/paintings/girl-before-a-mirror.jpg" alt="Girl Before a Mirror">
+          <div class="title">Girl Before a Mirror (1932)</div>
+        </div>
+        <div class="artwork">
+          <img src="https://www.pablopicasso.org/assets/img/paintings/portrait-of-dora-maar.jpg" alt="Portrait of Dora Maar">
+          <div class="title">Portrait of Dora Maar (1937)</div>
+        </div>
+        <div class="artwork">
+          <img src="https://upload.wikimedia.org/wikipedia/en/6/63/Picasso_Massacre_in_Korea.jpg" alt="Massacre in Korea">
+          <div class="title">Massacre in Korea (1951)</div>
+        </div>
+          <div class="artwork">
+            <img src="https://www.pablopicasso.org/assets/img/paintings/three-musicians.jpg" alt="Three Musicians">
+            <div class="title">Three Musicians (1921)</div>
+          </div>
+      </div>
+    </section>
+    <section id="statement">
+      <div class="statement-title">Artist's Statement</div>
+      <div class="statement-content">
+        Pablo Picasso (1881–1973) was a Spanish painter, sculptor, printmaker, ceramicist, and stage designer, widely regarded as one of the most influential artists of the 20th century. Co-founder of Cubism, Picasso's work is marked by bold colors, abstract forms, and a relentless drive to innovate. His art challenges conventions and explores the depths of human emotion and perception. Picasso believed that "every act of creation is first an act of destruction," and his mission was to push the boundaries of artistic expression, inspiring generations to see the world anew.
+      </div>
+    </section>
+    <section id="contact">
+      <div class="contact-title">Contact</div>
+      <form class="contact-form" autocomplete="off">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required placeholder="Your Name">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="Your Email">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="4" required placeholder="Your Message"></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
